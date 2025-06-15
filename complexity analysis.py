@@ -3,20 +3,27 @@ import random
 import matplotlib
 import matplotlib.pyplot
 
-def reverse_and_remove(xs: list[int]) -> list[int]: 
-    ans = [] 
-    for k in range(len(xs)): 
-        ans.append(xs[-k-1])     
-    return [x for x in ans if x >= 0]
+def partition(values: list[int]) -> tuple[int, int, int]: 
+    positives = 0 
+    zeros = 0 
+    negatives = 0 
+    for value in values: 
+        if value == 0: 
+            zeros += 1 
+        elif value > 0: 
+            positives += 1 
+        else: 
+            negatives += 1 
+    return (positives, zeros, negatives)
+xs=[]
+ys=[]
 
-x=[]
-y=[]
-
-for i in range(1,25):
-    list = [random.randint(-3,3) for j in range(i**4)]
-    x.append(i**2)
-    y.append(timeit.timeit(lambda: reverse_and_remove(list),number=100))
+for i in range(1,50):
+    x = i**3
+    list = [random.randint(-3,3) for j in range(x)]
+    xs.append(x)
+    ys.append(timeit.timeit(lambda: partition(list),number=100))
     print(i)
 
-matplotlib.pyplot.plot(x,y)
+matplotlib.pyplot.plot(xs,ys)
 matplotlib.pyplot.show()
